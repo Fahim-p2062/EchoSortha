@@ -4,41 +4,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Dustbin Monitor</title>
+  <title>EcoSortha: Smart Dustbin Monitor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    :root {
-      --primary-color: #4CAF50;
-      --accent-color: #2c3e50;
-      --light-bg: #f5f7fa;
-      --card-bg: #ffffff;
-      --low-color: #27ae60;
-      --medium-color: #f39c12;
-      --high-color: #e74c3c;
-      --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      --hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--light-bg);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f7fa;
       position: relative;
       min-height: 100vh;
       overflow-x: hidden;
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    :root {
+      --primary-color: #4CAF50;
+      --accent-color: #2c3e50;
+      --low-color: #27ae60;
+      --medium-color: #f39c12;
+      --high-color: #e74c3c;
     }
 
     .svg-background {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 0;
+      z-index: -10;
       width: 100%;
       height: 100%;
       pointer-events: none;
@@ -49,17 +48,15 @@
       backdrop-filter: blur(5px);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       padding: 20px 0;
-      position: relative;
-      z-index: 10;
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
 
     .header-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
     }
 
     .logo {
@@ -92,6 +89,7 @@
       transition: all 0.3s ease;
       padding: 5px 10px;
       border-radius: 5px;
+      position: relative;
     }
 
     nav a:hover {
@@ -104,218 +102,56 @@
       color: white;
     }
 
-    main {
-      position: relative;
-      z-index: 1;
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      color: var(--accent-color);
-      margin-bottom: 30px;
-      text-align: center;
-      font-size: 2.2rem;
-      position: relative;
-      display: inline-block;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    h1::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60%;
-      height: 3px;
-      background-color: var(--primary-color);
-      border-radius: 2px;
-    }
-
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    .dashboard-stats {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .stat-card {
-      background: var(--card-bg);
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      min-width: 200px;
-    }
-
-    .stat-icon {
-      background-color: rgba(76, 175, 80, 0.1);
-      color: var(--primary-color);
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-
-    .stat-info h3 {
-      font-size: 0.9rem;
-      color: #777;
-      margin-bottom: 5px;
-    }
-
-    .stat-info p {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: var(--accent-color);
-    }
-
-    .cards-wrapper {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      padding: 25px 30px;
-      text-align: center;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 100%;
-      background-color: var(--primary-color);
-      opacity: 0.7;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--hover-shadow);
-    }
-
-    .card h2 {
-      margin-bottom: 20px;
-      color: var(--accent-color);
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .card h2 i {
-      color: var(--primary-color);
-    }
-
     .fill-meter {
       height: 20px;
       background-color: #eee;
-      border-radius: 10px;
-      margin: 15px 0;
+      border-radius: 9999px;
       overflow: hidden;
       position: relative;
     }
-
     .fill-level {
       height: 100%;
       width: 0%;
-      border-radius: 10px;
+      border-radius: 9999px;
       transition: width 1s ease, background-color 1s ease;
     }
+    .fill-level.low { background-color: var(--low-color); }
+    .fill-level.medium { background-color: var(--medium-color); }
+    .fill-level.high { background-color: var(--high-color); }
 
-    .fill-level.low {
-      background-color: var(--low-color);
-    }
-
-    .fill-level.medium {
-      background-color: var(--medium-color);
-    }
-
-    .fill-level.high {
-      background-color: var(--high-color);
-    }
-
-    .data {
-      margin: 15px 0;
-      color: #555;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .data span {
+    .status-badge {
       font-weight: bold;
-      color: var(--accent-color);
-    }
-
-    .data-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px dashed #eee;
-    }
-
-    .data-item:last-child {
-      border-bottom: none;
-    }
-
-    .status {
-      font-weight: bold;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
       color: #fff;
-      margin-top: 20px;
+      margin-top: 1.5rem;
       display: inline-block;
       min-width: 120px;
-    }
-
-    .status.low {
-      background-color: var(--low-color);
-    }
-
-    .status.medium {
-      background-color: var(--medium-color);
-    }
-
-    .status.high {
-      background-color: var(--high-color);
-    }
-
-    .footer {
-      margin-top: 60px;
-      padding: 20px 0;
-      color: #777;
       text-align: center;
-      position: relative;
-      z-index: 2;
-      border-top: 1px solid #eee;
+    }
+    .status-badge.low { background-color: var(--low-color); }
+    .status-badge.medium { background-color: var(--medium-color); }
+    .status-badge.high { background-color: var(--high-color); }
+    .status-badge.default { background-color: #9ca3af; }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.9;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+    }
+    .pulse-dot {
+      animation: pulse 2s infinite;
     }
 
-    /* Chatbot section */
     .chatbot-section {
       position: fixed;
       bottom: 20px;
@@ -343,10 +179,6 @@
 
     .chatbot-toggle:hover {
       transform: scale(1.05);
-    }
-
-    .chatbot-toggle i {
-      font-size: 24px;
     }
 
     .chatbot-container {
@@ -390,68 +222,6 @@
       font-size: 18px;
     }
 
-    .chatbot-iframe {
-      width: 100%;
-      height: calc(100% - 50px);
-      border: none;
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-      .header-container {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      nav ul {
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .dashboard-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-      }
-
-      .stat-card {
-        width: 100%;
-      }
-
-      .cards-wrapper {
-        grid-template-columns: 1fr;
-      }
-
-      .chatbot-container {
-        width: 300px;
-        height: 400px;
-        right: 0;
-      }
-    }
-
-    /* Animation for dots */
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        opacity: 0.6;
-      }
-
-      50% {
-        transform: scale(1.2);
-        opacity: 0.9;
-      }
-
-      100% {
-        transform: scale(1);
-        opacity: 0.6;
-      }
-    }
-
-    .pulse-dot {
-      animation: pulse 2s infinite;
-    }
-
-    /* Notification badge */
     .notification-badge {
       position: absolute;
       top: -5px;
@@ -467,19 +237,10 @@
       font-size: 12px;
       font-weight: bold;
     }
-
-    /* Last updated indicator */
-    .last-updated {
-      display: block;
-      text-align: right;
-      font-size: 0.8rem;
-      color: #999;
-      margin-top: 10px;
-    }
   </style>
 </head>
 
-<body>
+<body class="min-h-screen">
 
   <div class="svg-background">
     <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
@@ -554,7 +315,7 @@
           <path d="M400,430 L420,430 L425,530 L395,530 Z" fill="#333333" />
           <path d="M390,430 L430,430 L430,420 L390,420 Z" fill="#333333" />
 
-          <path d="M600,410 L620,410 L625,510 L595,510 Z" fill="#333333" />
+          <path d="M600,410 L620,410 L625,510 L595,510 Z" fill="#33333As" />
           <path d="M590,410 L630,410 L630,400 L590,400 Z" fill="#333333" />
 
           <path d="M205,450 Q210,440 215,450" stroke="#333333" stroke-width="2" fill="none" />
@@ -571,118 +332,144 @@
       <path d="M0,530 Q200,500 400,530 T800,530 V600 H0 Z" fill="#4CAF50" opacity="0.1" />
     </svg>
   </div>
-
   <header>
-    <div class="header-container">
+    <div class="header-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="logo">
         <i class="fas fa-recycle"></i>
         <div class="logo-text">EcoSortha</div>
       </div>
       <nav>
         <ul>
-          <li><a href="#" class="active">Dashboard</a></li>
-          <li><a href="https://fuzzy-capybara-5xjqq6wv7q5246qx-8000.app.github.dev/">Analytics</a></li>
-          <li><a href="#">Locations</a></li>
-          <li><a href="#">Notifications</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="https://wasteclassifier.vercel.app">Analytics</a></li>
+          <li><a href="Dustbin.html" class="active">Dustbin</a></li>
+          <li><a href="routeopt.html">Route Optimization</a></li>
+          <li><a href="notification.html" id="nav-notifications">Notifications <span id="notifBadge" class="notif-badge" style="display:none">0</span></a></li>
           <li><a href="#">Settings</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main>
-    <h1>Smart Dustbin Monitor</h1>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <div class="dashboard-header">
-      <div class="dashboard-stats">
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-trash-alt"></i>
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-10 relative pb-3">
+      Smart Dustbin Monitor
+      <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 max-w-xs h-1 bg-green-500 rounded-full"></span>
+    </h1>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+      
+      <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-sm mb-1">Active Dustbins</p>
+            <p class="text-3xl font-bold text-gray-800" id="statActiveBins">2/3</p>
           </div>
-          <div class="stat-info">
-            <h3>Active Dustbins</h3>
-            <p>3/3</p>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-exclamation-triangle"></i>
-          </div>
-          <div class="stat-info">
-            <h3 id="attentionNeededText">Need Attention</h3>
-            <p id="needAttention">0</p>
+          <div class="bg-green-100 rounded-full p-4">
+            <i class="fas fa-trash-alt text-2xl text-green-600"></i>
           </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-sync-alt"></i>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-sm mb-1">Need Attention</p>
+            <p class="text-3xl font-bold text-gray-800" id="needAttention">0</p>
           </div>
-          <div class="stat-info">
-            <h3>Last Updated</h3>
-            <p id="lastUpdated">Just now</p>
+          <div class="bg-red-100 rounded-full p-4"> <i class="fas fa-exclamation-triangle text-2xl text-red-600"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-sm mb-1">Last Updated</p>
+            <p class="text-3xl font-bold text-gray-800" id="lastUpdated">--:--:--</p>
+          </div>
+          <div class="bg-blue-100 rounded-full p-4">
+            <i class="fas fa-sync-alt text-2xl text-blue-600"></i>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="cards-wrapper">
-      <div class="card">
-        <h2><i class="fas fa-trash-alt"></i> Dustbin 1</h2>
-        <div class="data-item">
-          <div>Distance:</div>
-          <div><span id="distance1">Loading...</span> cm</div>
+    <div id="dustbinCardContainer" class="grid lg:grid-cols-3 gap-6 mt-10">
+
+      <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
+          <i class="fas fa-trash-alt text-green-600"></i> Dustbin 1
+        </h2>
+        <div class="space-y-3 text-left">
+          <div class="flex justify-between items-center p-3 border-b border-gray-100">
+            <span class="text-gray-600">Distance:</span>
+            <span class="font-bold text-gray-800"><span id="distance1">Loading...</span> cm</span>
+          </div>
+          <div class="flex justify-between items-center p-3 border-b border-gray-100">
+            <span class="text-gray-600">Fill Percentage:</span>
+            <span class="font-bold text-gray-800" id="fillPercent1">Loading...</span>
+          </div>
         </div>
-        <div class="data-item">
-          <div>Fill Percentage:</div>
-          <div><span id="fillPercent1">Loading...</span></div>
-        </div>
-        <div class="fill-meter">
+        <div class="fill-meter mt-5 mb-4">
           <div id="fillLevel1" class="fill-level"></div>
         </div>
-        <div id="status1" class="status">Checking Status...</div>
-        <span class="last-updated" id="lastUpdated1">Updating...</span>
+        <div id="status1" class="status-badge default">Checking Status...</div>
+        <span class="block text-right text-xs text-gray-400 mt-3" id="lastUpdated1">Updating...</span>
       </div>
 
-      <div class="card">
-        <h2><i class="fas fa-trash-alt"></i> Dustbin 2</h2>
-        <div class="data-item">
-          <div>Distance:</div>
-          <div><span id="distance2">Loading...</span> cm</div>
+      <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
+          <i class="fas fa-trash-alt text-green-600"></i> Dustbin 2
+        </h2>
+        <div class="space-y-3 text-left">
+          <div class="flex justify-between items-center p-3 border-b border-gray-100">
+            <span class="text-gray-600">Distance:</span>
+            <span class="font-bold text-gray-800"><span id="distance2">Loading...</span> cm</span>
+          </div>
+          <div class="flex justify-between items-center p-3 border-b border-gray-100">
+            <span class="text-gray-600">Fill Percentage:</span>
+            <span class="font-bold text-gray-800" id="fillPercent2">Loading...</span>
+          </div>
         </div>
-        <div class="data-item">
-          <div>Fill Percentage:</div>
-          <div><span id="fillPercent2">Loading...</span></div>
-        </div>
-        <div class="fill-meter">
+        <div class="fill-meter mt-5 mb-4">
           <div id="fillLevel2" class="fill-level"></div>
         </div>
-        <div id="status2" class="status">Checking Status...</div>
-        <span class="last-updated" id="lastUpdated2">Updating...</span>
+        <div id="status2" class="status-badge default">Checking Status...</div>
+        <span class="block text-right text-xs text-gray-400 mt-3" id="lastUpdated2">Updating...</span>
       </div>
 
-      <div class="card">
-        <h2><i class="fas fa-trash-alt"></i> Dustbin 3</h2>
-        <div class="data-item">
-          <div>Distance:</div>
-          <div><span id="distance3">Loading...</span> cm</div>
+      <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-2">
+          <i class="fas fa-trash-alt text-green-600"></i> Dustbin 3
+        </h2>
+        <div class="space-y-3 text-left">
+          <div class="flex justify-between items-center p-3 border-b border-gray-100">
+            <span class="text-gray-600">Distance:</span>
+            <span class="font-bold text-gray-800"><span id="distance3">Loading...</span> cm</span>
+          </div>
+          <div class="flex justify-between items-center p-3 border-b border-gray-100">
+            <span class="text-gray-600">Fill Percentage:</span>
+            <span class="font-bold text-gray-800" id="fillPercent3">Loading...</span>
+          </div>
         </div>
-        <div class="data-item">
-          <div>Fill Percentage:</div>
-          <div><span id="fillPercent3">Loading...</span></div>
-        </div>
-        <div class="fill-meter">
+        <div class="fill-meter mt-5 mb-4">
           <div id="fillLevel3" class="fill-level"></div>
         </div>
-        <div id="status3" class="status">Checking Status...</div>
-        <span class="last-updated" id="lastUpdated3">Updating...</span>
+        <div id="status3" class="status-badge default">Checking Status...</div>
+        <span class="block text-right text-xs text-gray-400 mt-3" id="lastUpdated3">Updating...</span>
       </div>
-    </div>
 
-    <div class="footer">
-      <p>Smart Waste Management System by Team Gliders</p>
-      <p>&copy; 2025 All Rights Reserved</p>
     </div>
   </main>
+
+  <footer class="bg-white mt-12 py-6 border-t">
+    <div class="max-w-7xl mx-auto px-4 text-center text-gray-600">
+      <p>Smart Waste Management System by Team Gliders</p>
+      <p class="text-sm mt-1">© 2025 All Rights Reserved</p>
+    </div>
+  </footer>
 
   <div class="chatbot-section">
     <div class="chatbot-toggle" id="chatToggle">
@@ -694,7 +481,7 @@
         <h3><i class="fas fa-robot"></i> Smart Assistant</h3>
         <div class="close-chat" id="closeChat"><i class="fas fa-times"></i></div>
       </div>
-      <iframe height="430" width="350" src="https://bot.dialogflow.com/6fe817bb-e400-4897-b0f6-aa16e24d741e"></iframe>
+      <iframe height="430" width="350" src="https://bot.dialogflow.com/6fe817bb-e400-4897-b0f6-aa16e24d741e" class="border-none"></iframe>
     </div>
   </div>
 
@@ -702,7 +489,11 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
-    // Firebase configuration - Replace with your own configuration
+    // LOCAL STORAGE KEY
+    const BIN_STATE_KEY = 'ECO_BIN_STATE_v1';
+    const NOTIF_KEY = 'ECO_NOTIFICATIONS_v1';
+
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDukH2UaAqphv9Tzc128i88W_WHJo9QBnI",
       authDomain: "smartdustbin-696a9.firebaseapp.com",
@@ -718,6 +509,33 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // Helpers
+    function safeParse(jsonStr, fallback) {
+      try { return JSON.parse(jsonStr); } catch(e) { return fallback; }
+    }
+
+    function loadBinState() {
+      const raw = localStorage.getItem(BIN_STATE_KEY);
+      if (!raw) {
+        // default structure
+        const defaultState = {
+          bin1: { distance: 120, fillPercent: 25 },
+          bin2: { distance: 60, fillPercent: 55 },
+          bin3: { distance: 20, fillPercent: 85 },
+          lastUpdated: new Date().toISOString()
+        };
+        localStorage.setItem(BIN_STATE_KEY, JSON.stringify(defaultState));
+        return defaultState;
+      }
+      return safeParse(raw, {});
+    }
+
+    function saveBinState(state) {
+      localStorage.setItem(BIN_STATE_KEY, JSON.stringify(state));
+      updateStatCards();
+      updateHeaderNotifBadge();
+    }
+
     // Function to update dustbin status on the UI
     function updateDustbinUI(binNumber, data) {
       const distanceElem = document.getElementById(`distance${binNumber}`);
@@ -727,26 +545,29 @@
       const lastUpdatedElem = document.getElementById(`lastUpdated${binNumber}`);
 
       if (data) {
-        const distance = data.distance;
-        const fillPercent = data.fillPercent;
+        const distance = data.distance ?? 'No data';
+        const fillPercent = (typeof data.fillPercent === 'number') ? data.fillPercent : (data.fillPercent ? parseFloat(data.fillPercent) : 'No data');
 
         distanceElem.textContent = `${distance}`;
-        fillPercentElem.textContent = `${fillPercent}%`;
-        fillLevelElem.style.width = `${fillPercent}%`;
+        fillPercentElem.textContent = (fillPercent === 'No data') ? 'No data' : `${fillPercent}%`;
+        fillLevelElem.style.width = (fillPercent === 'No data') ? '0%' : `${fillPercent}%`;
 
-        fillLevelElem.className = 'fill-level'; // Reset classes
-        if (fillPercent < 40) {
+        fillLevelElem.className = 'fill-level';
+        if (fillPercent === 'No data') {
+          statusElem.textContent = 'No data';
+          statusElem.className = 'status-badge default';
+        } else if (fillPercent < 40) {
           fillLevelElem.classList.add('low');
           statusElem.textContent = "Status: Low";
-          statusElem.className = "status low";
+          statusElem.className = "status-badge low";
         } else if (fillPercent < 80) {
           fillLevelElem.classList.add('medium');
           statusElem.textContent = "Status: Medium";
-          statusElem.className = "status medium";
+          statusElem.className = "status-badge medium";
         } else {
           fillLevelElem.classList.add('high');
           statusElem.textContent = "Status: Full!";
-          statusElem.className = "status high";
+          statusElem.className = "status-badge high";
         }
         lastUpdatedElem.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
       } else {
@@ -755,41 +576,77 @@
         fillLevelElem.style.width = '0%';
         fillLevelElem.className = 'fill-level';
         statusElem.textContent = 'No data';
-        statusElem.className = 'status';
+        statusElem.className = 'status-badge default';
         lastUpdatedElem.textContent = 'No data';
       }
     }
 
-    // Update the 'Need Attention' count
-    function updateAttentionCount() {
-      const needAttentionElem = document.getElementById('needAttention');
-      const statusElements = document.querySelectorAll('.status.high');
-      needAttentionElem.textContent = statusElements.length;
+    // Update stat cards
+    function updateStatCards() {
+      const state = loadBinState();
+      const bins = ['bin1','bin2','bin3'];
+      let attention = 0;
+      let active = 0;
+      bins.forEach((b, i) => {
+        const data = state[b];
+        if (data && typeof data.fillPercent === 'number') {
+          active++;
+          if (data.fillPercent >= 80) attention++;
+        }
+        updateDustbinUI(i+1, data);
+      });
+      document.getElementById('needAttention').textContent = attention;
+      document.getElementById('statActiveBins').textContent = `${active}/${bins.length}`;
+      document.getElementById('lastUpdated').textContent = new Date(state.lastUpdated || Date.now()).toLocaleTimeString();
     }
 
-    // Get references to the bin data in Firebase
+    // Firebase listeners -> update both UI and localStorage
     const binDataRef = db.ref('/binData');
 
-    // Listen for changes to bin1 data
     binDataRef.child('bin1').on('value', (snapshot) => {
-      updateDustbinUI(1, snapshot.val());
-      updateAttentionCount();
-      document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+      const val = snapshot.val();
+      const state = loadBinState();
+      if (val) {
+        state.bin1 = { distance: val.distance ?? state.bin1?.distance ?? 0, fillPercent: typeof val.fillPercent === 'number' ? val.fillPercent : parseFloat(val.fillPercent || state.bin1?.fillPercent || 0) };
+      }
+      state.lastUpdated = new Date().toISOString();
+      saveBinState(state);
+      updateStatCards();
     });
 
-    // Listen for changes to bin2 data
     binDataRef.child('bin2').on('value', (snapshot) => {
-      updateDustbinUI(2, snapshot.val());
-      updateAttentionCount();
+      const val = snapshot.val();
+      const state = loadBinState();
+      if (val) {
+        state.bin2 = { distance: val.distance ?? state.bin2?.distance ?? 0, fillPercent: typeof val.fillPercent === 'number' ? val.fillPercent : parseFloat(val.fillPercent || state.bin2?.fillPercent || 0) };
+      }
+      state.lastUpdated = new Date().toISOString();
+      saveBinState(state);
+      updateStatCards();
     });
 
-    // Listen for changes to bin3 data
     binDataRef.child('bin3').on('value', (snapshot) => {
-      updateDustbinUI(3, snapshot.val());
-      updateAttentionCount();
+      const val = snapshot.val();
+      const state = loadBinState();
+      if (val) {
+        state.bin3 = { distance: val.distance ?? state.bin3?.distance ?? 0, fillPercent: typeof val.fillPercent === 'number' ? val.fillPercent : parseFloat(val.fillPercent || state.bin3?.fillPercent || 0) };
+      }
+      state.lastUpdated = new Date().toISOString();
+      saveBinState(state);
+      updateStatCards();
     });
 
-    // Chatbot functionality (as in your provided code)
+    // If Firebase isn't available or on initial load, apply saved state
+    window.addEventListener('load', () => {
+      const state = loadBinState();
+      if (state) {
+        // update UI immediately
+        updateStatCards();
+      }
+      updateHeaderNotifBadge();
+    });
+
+    // Chatbot functionality
     const chatToggle = document.getElementById('chatToggle');
     const chatContainer = document.getElementById('chatContainer');
     const closeChat = document.getElementById('closeChat');
@@ -797,16 +654,47 @@
 
     chatToggle.addEventListener('click', () => {
       chatContainer.classList.toggle('active');
-      notificationBadge.style.display = 'none'; // Hide notification on open
+      notificationBadge.style.display = 'none';
     });
 
     closeChat.addEventListener('click', () => {
       chatContainer.classList.remove('active');
     });
 
-    // Initially hide the notification badge
     notificationBadge.style.display = 'none';
+
+    // Notifications badge in header must reflect global notifications unread count
+    function loadNotifications() {
+      const raw = localStorage.getItem(NOTIF_KEY);
+      try {
+        if (!raw) return [];
+        return JSON.parse(raw);
+      } catch(e) { return []; }
+    }
+    function updateHeaderNotifBadge() {
+      const list = loadNotifications();
+      const unread = list.filter(n => !n.read).length;
+      const badge = document.getElementById('notifBadge');
+      if (!badge) return;
+      if (unread > 0) {
+        badge.style.display = 'inline-flex';
+        badge.textContent = unread > 99 ? '99+' : unread;
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    // Keep header badge in sync when navigating away
+    window.addEventListener('storage', (e) => {
+      if (e.key === NOTIF_KEY) updateHeaderNotifBadge();
+    });
+
+    // Save bin state periodically
+    setInterval(() => {
+      const state = loadBinState();
+      saveBinState(state);
+    }, 30000);
+
   </script>
 </body>
-
 </html>
